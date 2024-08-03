@@ -1,7 +1,7 @@
-const buttons = document.getElementsByClassName("keypad-button")
+const buttons = document.getElementsByClassName("keypad-button");
+const lights = document.getElementsByClassName("stagelights");
 
-let locked = false;
-
+// activate keypad buttons if not locked
 if (!locked) {
     Array.from(buttons).forEach(button => {
         button.addEventListener("click", () => {
@@ -26,3 +26,14 @@ if (!locked) {
         })
     })
 }
+
+// light stage lights
+Array.from(lights).forEach(light => {
+    const stage = light.id.charAt(light.id.length - 1);
+    if (Number(stage) <= currentStage) {
+        console.log(Number(stage), currentStage);
+        document.getElementById(`light${currentStage}`).setAttribute('class', 'light-on');
+        console.log(document.getElementById(`light${currentStage}`).getAttribute('class'));
+    }
+    console.log(document.getElementById(`light${currentStage}`).getAttribute('class'));
+})

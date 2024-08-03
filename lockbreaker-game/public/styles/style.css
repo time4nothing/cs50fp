@@ -116,6 +116,10 @@ body {
     color: white;
 }
 
-.stagelights svg {
+.light-off {
     color: grey;
+}
+
+.light-on {
+    color: rgb(124, 252, 0);
 }

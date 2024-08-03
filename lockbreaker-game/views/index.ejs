@@ -8,16 +8,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles/fonts.css">
-    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./static/styles/fonts.css">
+    <link rel="stylesheet" href="./static/styles/style.css">
 </head>
 
 <body>
     <div id="page">
         <div id="panel">
             <div id="top">
-                <form id="unlockbutton" action="/">
-                    <input id="name" value="name" size="20">
+                <form id="unlockbutton" action="/" method="post">
+                    <input id="name" name="name" size="20">
                     <button type="submit">Unlock</button>
                 </form>
             </div>
@@ -63,7 +63,7 @@
                     <span id="stagetext">STAGE</span>
                     <div class="stagelights" id="stage1">
                         <!-- base SVG code courtesy of streamlinehq.com -->
-                        <svg fill="currentColor" viewBox="0 0 24 24" height="3rem" width="3rem" xmlns="http://www.w3.org/2000/svg">
+                        <svg id="light1" class="light-off" fill="currentColor" viewBox="0 0 24 24" height="3rem" width="3rem" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M0.23 3.45c0 -1.77603125 1.44396875 -3.2199999999999998 3.2199999999999998 -3.2199999999999998h16.1c1.77603125 0 3.2199999999999998 1.44396875 3.2199999999999998 3.2199999999999998v16.1c0 1.77603125 -1.44396875 3.2199999999999998 -3.2199999999999998 3.2199999999999998H3.45c-1.77603125 0 -3.2199999999999998 -1.44396875 -3.2199999999999998 -3.2199999999999998V3.45Z"
                                 stroke-width="1"></path>
@@ -71,7 +71,7 @@
                     </div>
                     <div class="stagelights" id="stage2">
                         <!-- base SVG code courtesy of streamlinehq.com -->
-                        <svg fill="currentColor" viewBox="0 0 24 24" height="3rem" width="3rem" xmlns="http://www.w3.org/2000/svg">
+                        <svg id="light2" class="light-off" fill="currentColor" viewBox="0 0 24 24" height="3rem" width="3rem" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M0.23 3.45c0 -1.77603125 1.44396875 -3.2199999999999998 3.2199999999999998 -3.2199999999999998h16.1c1.77603125 0 3.2199999999999998 1.44396875 3.2199999999999998 3.2199999999999998v16.1c0 1.77603125 -1.44396875 3.2199999999999998 -3.2199999999999998 3.2199999999999998H3.45c-1.77603125 0 -3.2199999999999998 -1.44396875 -3.2199999999999998 -3.2199999999999998V3.45Z"
                                 stroke-width="1"></path>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="stagelights" id="stage3">
                         <!-- base SVG code courtesy of streamlinehq.com -->
-                        <svg fill="currentColor" viewBox="0 0 24 24" height="3rem" width="3rem" xmlns="http://www.w3.org/2000/svg">
+                        <svg id="light3" class="light-off" fill="currentColor" viewBox="0 0 24 24" height="3rem" width="3rem" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M0.23 3.45c0 -1.77603125 1.44396875 -3.2199999999999998 3.2199999999999998 -3.2199999999999998h16.1c1.77603125 0 3.2199999999999998 1.44396875 3.2199999999999998 3.2199999999999998v16.1c0 1.77603125 -1.44396875 3.2199999999999998 -3.2199999999999998 3.2199999999999998H3.45c-1.77603125 0 -3.2199999999999998 -1.44396875 -3.2199999999999998 -3.2199999999999998V3.45Z"
                                 stroke-width="1"></path>
@@ -90,7 +90,12 @@
             </div>
         </div>
     </div>
-    <script src="./scripts/script.js"></script>
+    <!-- send backend variables to local javascript -->
+    <script>
+        let locked = <%= lockStatus %>;
+        let currentStage = <%= stage %>;
+    </script>
+    <script src="./static/scripts/script.js"></script>
 </body>
 
 </html>
