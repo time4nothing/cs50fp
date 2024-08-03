@@ -5,10 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- favicon image courtesy of icons8.com -->
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=dxoYK8bxqiJr&format=png&color=000000">
+    <!-- load "Oswald" font from Google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <!-- import custom fonts (DSEG7 modern and classic) courtesy of keshikan.net -->
     <link rel="stylesheet" href="./static/styles/fonts.css">
+    <!-- load external css file -->
     <link rel="stylesheet" href="./static/styles/style.css">
 </head>
 
@@ -17,8 +22,12 @@
         <div id="panel">
             <div id="top">
                 <form id="unlockbutton" action="/" method="post">
-                    <input id="name" name="name" size="20">
-                    <button type="submit">Unlock</button>
+                    <input id="name" name="name" value="<%= name %>" size="20">
+                    <% if (lockStatus) { %>
+                        <button type="submit">Unlock</button>
+                    <% } else { %>
+                        <button type="submit" disabled>Unlocked</button>
+                    <% } %>
                 </form>
             </div>
 
@@ -90,11 +99,12 @@
             </div>
         </div>
     </div>
-    <!-- send backend variables to local javascript -->
+    <!-- setup backend variables for external javascript -->
     <script>
         let locked = <%= lockStatus %>;
         let currentStage = <%= stage %>;
     </script>
+    <!-- load external js file -->
     <script src="./static/scripts/script.js"></script>
 </body>
 
