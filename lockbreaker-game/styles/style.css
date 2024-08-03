@@ -1,0 +1,121 @@
+body {
+    margin: 0;
+    background-image: url('../images/wall.png');
+    background-size: 100% auto;
+    background-color:rgb(43, 43, 43)
+}
+
+#page {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#panel {
+    background-color: rgb(78, 78, 78);
+    margin: 20px;
+    max-width: 500px;
+    border: 10px solid rgb(0, 0, 0);
+}
+
+#top {
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#unlocktimer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+#delaytext {
+    font-size: 1.2rem;
+    padding: 4px 10px;
+    background-color: rgb(56, 56, 56);
+    color: white;
+}
+
+#timer {
+    background-color: black;
+    height: 30px;
+    width: 110px;
+    font-size: 1.2rem;
+    color: red;
+    font-family: "DSEG7 Modern";
+    align-content: center;
+}
+
+#output {
+    background-color: black;
+    height: 70px;
+    width: 420px;
+    padding: 10px 0;
+    font-size: 4rem;
+    margin: 10px auto;
+    border: 3px solid darkgrey;
+    font-family: "DSEG7 Modern";
+    color: white;
+    text-align: right;
+}
+
+#keypad {
+    background-color: rgb(56, 56, 56);
+    display: grid;
+    grid-template-columns: repeat(3, 7rem);
+    grid-template-rows: repeat(4, 6rem);
+    gap: 10px;
+    padding: 20px;
+    margin: 20px;
+    place-content: center;
+    border-radius: 10px;
+    color: white;
+}
+
+.keypad-button {
+    background-color: rgb(119, 119, 119);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 4rem;
+}
+
+#bottom {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#stagearea {
+    display: flex;
+}
+
+#stagetext {
+    font-family: "Oswald";
+    font-size: 3rem;
+    padding-right: 10px;
+    color: white;
+}
+
+.stagelights {
+    padding: 5px;
+    align-self: flex-end;
+}
+
+#reset {
+    width: 80px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+}
+
+#keypad svg {
+    color: white;
+}
+
+.stagelights svg {
+    color: grey;
+}
