@@ -9,9 +9,11 @@ let name = '';
 
 app.use('/static', express.static('./public')); // set location for static files
 app.use(express.urlencoded({ extended: true })); // parse submitted data from frontend
+app.use(express.json());
 
 // initial page render
 app.get('/', (req, res) => {
+    console.log(name, locked);
     res.render('index.ejs', { name: name, lockStatus: locked, stage: stage });
 });
 
@@ -21,19 +23,22 @@ app.post('/', (req, res) => {
     if (name) {
         locked = false;
     }
-    res.render('index.ejs', { name: name, lockStatus: locked, stage: stage });
+    res.redirect('/');
 });
 
 app.post('/validate', (req, res) => {
-    console.log(req.body, "Enter clicked");
-    res.render('index.ejs', { name: name, lockStatus: locked, stage: stage });
+    let output = req.body.guess;
+    locked = true;
+    console.log(locked, output);
+    res.render('index.ejs', { name: name, lockStatus: locked, stage: stage, output: output });
 });
 
+// clear variables and redirect to root
 app.post('/reset', (req, res) => {
     console.log("reset pressed");
     name = "";
     locked = true;
-    res.render('index.ejs', { name: name, lockStatus: locked, stage: stage });
+    res.redirect('/');
 });
 
 app.listen(port, () => {
