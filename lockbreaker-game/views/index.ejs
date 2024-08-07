@@ -23,7 +23,7 @@
             <div id="top">
                 <form id="unlockbutton" action="/" method="post">
                     <input id="name" name="name" value="<%= name %>" size="20" autocomplete="off">
-                    <% if (lockStatus) { %>
+                    <% if (locked) { %>
                         <button type="submit">Unlock</button>
                         <% } else { %>
                             <button type="submit" disabled>Unlocked</button>
@@ -33,7 +33,7 @@
 
             <div id="unlocktimer">
                 <span id="delaytext">Lock Delay</span>
-                <div id="timer"><%= timer %></div>
+                <div id="timer"></div>
             </div>
 
             <div id="output">
@@ -103,11 +103,13 @@
             </div>
         </div>
     </div>
-    <!-- setup backend variables for external javascript -->
+    <!-- setup backend variables for frontend external javascript -->
     <script>
-        let currentStage = <%= stage %>;
-        let locked = <%= lockStatus %>;
-        let flash = <%= flash %>;
+        const currentStage = <%= stage %>;
+        const lockedStatus = <%= locked %>;
+        const flashStatus = <%= flash %>;
+        const timerEnd = <%= timer %>;
+        const flashButtonsStatus = <%= flashButtons %>;
     </script>
     <!-- load external js file -->
     <script src="./static/scripts/script.js"></script>
