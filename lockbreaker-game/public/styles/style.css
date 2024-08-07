@@ -65,14 +65,13 @@ body {
 #keypad {
     background-color: rgb(56, 56, 56);
     display: grid;
-    grid-template-columns: repeat(3, 7rem);
-    grid-template-rows: repeat(4, 6rem);
-    gap: 10px;
+    grid-template-columns: repeat(3, 8rem);
+    grid-template-rows: repeat(4, 7rem);
+    gap: 5px;
     padding: 20px;
     margin: 20px;
     place-content: center;
     border-radius: 10px;
-    color: white;
 }
 
 .keypad-button {
@@ -82,6 +81,7 @@ body {
     justify-content: center;
     border-radius: 10px;
     font-size: 4rem;
+    color: white;
 }
 
 #bottom {
@@ -107,13 +107,10 @@ body {
 }
 
 #reset {
-    width: 80px;
+    width: 120px;
+    height: 100%;
     border-radius: 10px;
     font-size: 1.2rem;
-}
-
-#keypad svg {
-    color: white;
 }
 
 .light-off {
