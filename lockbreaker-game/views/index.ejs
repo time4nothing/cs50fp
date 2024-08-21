@@ -37,7 +37,13 @@
             </div>
 
             <div id="output">
-                <%= output %>
+                <% if (outputColored.length > 0) { %>
+                    <% for (let i = 0; i < outputColored.length; i++) { %>
+                        <span style="color: <%= outputColored[i].match %>;"><%= outputColored[i].number %></span>
+                    <% } %>
+                <% } else { %>
+                    <span><%= output %></span>
+                <% } %>
             </div>
 
             <form id="keypad" action="/validate" method="post">
@@ -94,6 +100,7 @@
                             <path
                                 d="M0.23 3.45c0 -1.77603125 1.44396875 -3.2199999999999998 3.2199999999999998 -3.2199999999999998h16.1c1.77603125 0 3.2199999999999998 1.44396875 3.2199999999999998 3.2199999999999998v16.1c0 1.77603125 -1.44396875 3.2199999999999998 -3.2199999999999998 3.2199999999999998H3.45c-1.77603125 0 -3.2199999999999998 -1.44396875 -3.2199999999999998 -3.2199999999999998V3.45Z"
                                 stroke-width="1"></path>
+                                <text">3</text>
                         </svg>
                     </div>
                 </div>

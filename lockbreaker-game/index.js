@@ -3,10 +3,17 @@ import express from 'express';
 const app = express();
 const port = 7001;
 
+const code = {
+    1: 45846846,
+    2: 78945612,
+    3: 12345678
+}
+
 let locked = true;
 let stage = 2;
 let name = '';
 let output = '';
+let outputColored = [];
 let timer = -1;
 let flash = false;
 let flashButtons = false;
@@ -16,8 +23,7 @@ app.use(express.urlencoded({ extended: true })); // parse submitted data from fr
 
 // initial page render
 app.get('/', (req, res) => {
-    console.log(name, locked);
-    res.render('index.ejs', { locked: locked, stage: stage, name: name, output: output, timer: timer, flash: flash, flashButtons: flashButtons });
+    res.render('index.ejs', { locked: locked, stage: stage, name: name, output: output, outputColored: outputColored, timer: timer, flash: flash, flashButtons: flashButtons });
 });
 
 // collect submitted name and unlock keypad
@@ -38,7 +44,8 @@ app.post('/validate', (req, res) => {
     if (!locked) {
         flash = false;
         if (pressedButton === "enter") {
-            validate(output);
+            outputColored = validate(output);
+            console.log(outputColored);
             locked = true;
         } else if (pressedButton === "backspace") {
             // if backspace is hit, remove end of number
@@ -57,6 +64,7 @@ app.post('/validate', (req, res) => {
 app.post('/reset', (req, res) => {
     name = "";
     output = "";
+    outputColored = {};
     locked = true;
     flashButtons = false;
     res.redirect('/');
@@ -66,8 +74,33 @@ app.listen(port, () => {
     console.log(`Lockbreaker listening on port ${port}`);
 });
 
+// function to validate input
 function validate(content) {
-    timer = Date.now() + (12*60*60*1000);
-    console.log(timer);
-    console.log(content);
+    let validation = [];
+    timer = Date.now() + (12*60*60*1000); // 12 hrs from current time
+
+    const outputArray = output.split('');
+    const codeString = code[stage].toString();
+    const codeArray = codeString.split('');
+    outputArray.forEach((num, index) => {
+        if (codeString.search(num) === -1) {
+            validation[index] = {
+                number: num,
+                match: 'white'
+            }
+        } else {
+            validation[index] = {
+                number: num,
+                match: 'yellow'
+            }
+        }
+        if (outputArray[index] === codeArray[index]) {
+            validation[index] = {
+                number: num,
+                match: 'green'
+            }
+        }
+    })
+
+    return validation;
 }

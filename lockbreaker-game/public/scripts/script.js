@@ -47,11 +47,9 @@ if (flashStatus) {
 // light stage light
 const lights = document.getElementsByClassName("stagelights");
 
-Array.from(lights).forEach(light => {
-    const stagelight = light.id.charAt(light.id.length - 1);
-    if (Number(stagelight) <= currentStage) {
-        //console.log(Number(stage), currentStage);
-        document.getElementById(`light${currentStage}`).setAttribute('class', 'light-on');
+Array.from(lights).forEach((light, index) => {
+    if (index <= currentStage) {
+        document.getElementById(`light${index}`).setAttribute('class', 'light-on');
         //console.log(document.getElementById(`light${currentStage}`).getAttribute('class'));
     }
     //console.log(document.getElementById(`light${currentStage}`).getAttribute('class'));
