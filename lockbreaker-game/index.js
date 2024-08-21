@@ -10,7 +10,7 @@ const code = {
 }
 
 let locked = true;
-let stage = 2;
+let stage = 1;
 let name = '';
 let output = '';
 let outputColored = [];

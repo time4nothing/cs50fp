@@ -48,9 +48,8 @@ if (flashStatus) {
 const lights = document.getElementsByClassName("stagelights");
 
 Array.from(lights).forEach((light, index) => {
+    index += 1;
     if (index <= currentStage) {
         document.getElementById(`light${index}`).setAttribute('class', 'light-on');
-        //console.log(document.getElementById(`light${currentStage}`).getAttribute('class'));
     }
-    //console.log(document.getElementById(`light${currentStage}`).getAttribute('class'));
 })
