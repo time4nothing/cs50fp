@@ -90,7 +90,7 @@ function validate() {
     let outputArray = output.split('');
     let codeArray = codeString.split('');
 
-    // if output and code matck, return validation array filled with 'match'
+    // if output and code match, return validation array filled with 'match'
     if (output === codeString) {
         validation = Array(8).fill('match');
         return validation;
@@ -121,14 +121,14 @@ function validate() {
         }
     })
 
-    // add 'match', 'yes', and 'no' to validation array, and reverse to show in desired order
+    // add 'match', 'yes', and 'no' to validation array
     for (let i = 1; i <= match; i++) { validateColors.push('match') };
     for (let i = 1; i <= yes; i++) { validateColors.push('yes') };
     const length = validateColors.length;
     for (let i = 8; i > length; i--) {
         validateColors.push('no');
     }
+    validation = validateColors;
 
-    validation = validateColors.reverse();
     return validation;
 }
