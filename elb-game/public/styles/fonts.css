@@ -1,0 +1,65 @@
+body {background-color: red;}
+
+@font-face {
+    font-family: "DSEG7 Modern";
+    src: url("../fonts/DSEG7Modern-Regular.woff2") format("woff2");
+}
+@font-face {
+    font-family: "DSEG7 Modern";
+    src: url("../fonts/DSEG7Modern-Bold.woff2") format("woff2");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "DSEG7 Modern";
+    src: url("../fonts/DSEG7Modern-Light.woff2") format("woff2");
+    font-weight: light;
+}
+@font-face {
+    font-family: "DSEG7 Modern";
+    src: url("../fonts/DSEG7Modern-Italic.woff2") format("woff2");
+    font-style: italic;
+}
+@font-face {
+    font-family: "DSEG7 Modern";
+    src: url("../fonts/DSEG7Modern-BoldItalic.woff2") format("woff2");
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "DSEG7 Modern";
+    src: url("../fonts/DSEG7Modern-LightItalic.woff2") format("woff2");
+    font-weight: light;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "DSEG7 Classic";
+    src: url("../fonts/DSEG7Classic-Regular.woff2") format("woff2");
+}
+@font-face {
+    font-family: "DSEG7 Classic";
+    src: url("../fonts/DSEG7Classic-Bold.woff2") format("woff2");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "DSEG7 Classic";
+    src: url("../fonts/DSEG7Classic-Light.woff2") format("woff2");
+    font-weight: light;
+}
+@font-face {
+    font-family: "DSEG7 Classic";
+    src: url("../fonts/DSEG7Classic-Italic.woff2") format("woff2");
+    font-style: italic;
+}
+@font-face {
+    font-family: "DSEG7 Classic";
+    src: url("../fonts/DSEG7Classic-BoldItalic.woff2") format("woff2");
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "DSEG7 Classic";
+    src: url("../fonts/DSEG7Classic-LightItalic.woff2") format("woff2");
+    font-weight: light;
+    font-style: italic;
+}

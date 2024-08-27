@@ -1,0 +1,158 @@
+body {
+    margin: 0;
+    background-image: url('../images/wall.png');
+    background-size: 100% auto;
+    background-color:rgb(43, 43, 43);
+}
+
+#page {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#panel {
+    background-color: rgb(78, 78, 78);
+    margin: 20px;
+    max-width: 500px;
+    border: 10px solid rgb(0, 0, 0);
+}
+
+#top {
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#unlocktimer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+#delaytext {
+    font-size: 1.2rem;
+    padding: 4px 10px;
+    background-color: rgb(56, 56, 56);
+    color: white;
+}
+
+#timer {
+    background-color: black;
+    height: 30px;
+    width: 110px;
+    font-size: 1.2rem;
+    color: red;
+    font-family: 'DSEG7 Modern';
+    align-content: center;
+}
+
+#resultSet {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.resultLights {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid black;
+    background: radial-gradient(darkgrey, rgb(56, 56, 56) 60%);
+}
+
+.match{
+    background: radial-gradient(darkgrey, rgb(76, 187, 23) 60%);
+}
+
+.yes{
+    background: radial-gradient(darkgrey, gold 60%);
+}
+
+#output {
+    background-color: black;
+    height: 70px;
+    width: 420px;
+    padding: 10px 0;
+    font-size: 4rem;
+    margin: 10px auto;
+    border: 3px solid darkgrey;
+    font-family: 'DSEG7 Modern';
+    color: white;
+    text-align: right;
+}
+
+#keypad {
+    background-color: rgb(56, 56, 56);
+    display: grid;
+    grid-template-columns: repeat(3, 8rem);
+    grid-template-rows: repeat(4, 7rem);
+    gap: 5px;
+    padding: 20px;
+    margin: 20px;
+    place-content: center;
+    border-radius: 10px;
+}
+
+.keypad-button {
+    background-color: rgb(119, 119, 119);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 4rem;
+    color: white;
+}
+
+#bottom {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#stagearea {
+    display: flex;
+}
+
+#stagetext {
+    font-family: 'Oswald';
+    font-size: 3rem;
+    padding-right: 10px;
+    color: white;
+}
+
+.stagelights {
+    padding: 5px;
+    align-self: flex-end;
+}
+
+#reset {
+    width: 120px;
+    height: 100%;
+    border-radius: 10px;
+    font-size: 1.2rem;
+}
+
+.light-off {
+    color: grey;
+}
+
+.light-on {
+    color: rgb(76, 187, 23);
+}
+
+svg text {
+    text-anchor: middle;
+    dominant-baseline: middle;
+    font-family: 'Oswald';
+    color: white;
+}
+
+#output.gameover {
+    font-family: 'Oswald';
+    text-align: center;
+    color: rgb(76, 187, 23);
+    font-size: 3rem;
+}
