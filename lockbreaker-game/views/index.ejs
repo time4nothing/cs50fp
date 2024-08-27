@@ -36,14 +36,19 @@
                 <div id="timer"></div>
             </div>
 
+            <div id="resultSet">
+                <div id="result1" class="resultLights"></div>
+                <div id="result2" class="resultLights"></div>
+                <div id="result3" class="resultLights"></div>
+                <div id="result4" class="resultLights"></div>
+                <div id="result5" class="resultLights"></div>
+                <div id="result6" class="resultLights"></div>
+                <div id="result7" class="resultLights"></div>
+                <div id="result8" class="resultLights"></div>
+            </div>
+
             <div id="output">
-                <% if (outputColored.length > 0) { %>
-                    <% for (let i = 0; i < outputColored.length; i++) { %>
-                        <span style="color: <%= outputColored[i].match %>;"><%= outputColored[i].number %></span>
-                    <% } %>
-                <% } else { %>
-                    <span><%= output %></span>
-                <% } %>
+                <%= output %>
             </div>
 
             <form id="keypad" action="/validate" method="post">
@@ -84,7 +89,7 @@
                             <path
                                 d="M0.23 3.45c0 -1.77603125 1.44396875 -3.2199999999999998 3.2199999999999998 -3.2199999999999998h16.1c1.77603125 0 3.2199999999999998 1.44396875 3.2199999999999998 3.2199999999999998v16.1c0 1.77603125 -1.44396875 3.2199999999999998 -3.2199999999999998 3.2199999999999998H3.45c-1.77603125 0 -3.2199999999999998 -1.44396875 -3.2199999999999998 -3.2199999999999998V3.45Z"
                                 stroke-width="1"></path>
-                                <text x="50%" y="55%">1</text>
+                            <text x="50%" y="55%">1</text>
                         </svg>
                     </div>
                     <div class="stagelights" id="stage2">
@@ -93,7 +98,7 @@
                             <path
                                 d="M0.23 3.45c0 -1.77603125 1.44396875 -3.2199999999999998 3.2199999999999998 -3.2199999999999998h16.1c1.77603125 0 3.2199999999999998 1.44396875 3.2199999999999998 3.2199999999999998v16.1c0 1.77603125 -1.44396875 3.2199999999999998 -3.2199999999999998 3.2199999999999998H3.45c-1.77603125 0 -3.2199999999999998 -1.44396875 -3.2199999999999998 -3.2199999999999998V3.45Z"
                                 stroke-width="1"></path>
-                                <text x="50%" y="55%">2</text>
+                            <text x="50%" y="55%">2</text>
                         </svg>
                     </div>
                     <div class="stagelights" id="stage3">
@@ -102,7 +107,7 @@
                             <path
                                 d="M0.23 3.45c0 -1.77603125 1.44396875 -3.2199999999999998 3.2199999999999998 -3.2199999999999998h16.1c1.77603125 0 3.2199999999999998 1.44396875 3.2199999999999998 3.2199999999999998v16.1c0 1.77603125 -1.44396875 3.2199999999999998 -3.2199999999999998 3.2199999999999998H3.45c-1.77603125 0 -3.2199999999999998 -1.44396875 -3.2199999999999998 -3.2199999999999998V3.45Z"
                                 stroke-width="1"></path>
-                                <text x="50%" y="55%">3</text>
+                            <text x="50%" y="55%">3</text>
                         </svg>
                     </div>
                 </div>
@@ -114,9 +119,16 @@
     </div>
     <!-- setup backend variables for frontend external javascript -->
     <script>
+        if (<%= locals.output.length %> > 0) {
+            const outputCode = <%= output %>;
+        }
+        const resultArray = ['no'];
+        if (<%= locals.resultColors.length %> > 1) {
+            resultArray = <% resultColors %>;
+        }
         const currentStage = <%= stage %>;
         const lockedStatus = <%= locked %>;
-        const flashStatus = <%= flash %>;
+        const flashOutputStatus = <%= flashOutput %>;
         const timerEnd = <%= timer %>;
         const flashButtonsStatus = <%= flashButtons %>;
     </script>

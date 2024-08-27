@@ -2,7 +2,7 @@ body {
     margin: 0;
     background-image: url('../images/wall.png');
     background-size: 100% auto;
-    background-color:rgb(43, 43, 43)
+    background-color:rgb(43, 43, 43);
 }
 
 #page {
@@ -29,7 +29,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
 }
 
 #delaytext {
@@ -45,8 +45,30 @@ body {
     width: 110px;
     font-size: 1.2rem;
     color: red;
-    font-family: "DSEG7 Modern";
+    font-family: 'DSEG7 Modern';
     align-content: center;
+}
+
+#resultSet {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.resultLights {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid black;
+    background: radial-gradient(darkgrey, rgb(56, 56, 56) 60%);
+}
+
+.match{
+    background: radial-gradient(darkgrey, rgb(76, 187, 23) 60%);
+}
+
+.yes{
+    background: radial-gradient(darkgrey, gold 60%);
 }
 
 #output {
@@ -54,17 +76,12 @@ body {
     height: 70px;
     width: 420px;
     padding: 10px 0;
-    font-size: 0;
+    font-size: 4rem;
     margin: 10px auto;
     border: 3px solid darkgrey;
-    font-family: "DSEG7 Modern";
+    font-family: 'DSEG7 Modern';
     color: white;
     text-align: right;
-}
-
-/* hack to remove gaps between spans, set font-size to 0 in containing div then proper size on spans */
-span {
-    font-size: 4rem;
 }
 
 #keypad {
@@ -100,7 +117,7 @@ span {
 }
 
 #stagetext {
-    font-family: "Oswald";
+    font-family: 'Oswald';
     font-size: 3rem;
     padding-right: 10px;
     color: white;
@@ -129,7 +146,13 @@ span {
 svg text {
     text-anchor: middle;
     dominant-baseline: middle;
-    font-family: "Oswald";
+    font-family: 'Oswald';
     color: white;
+}
 
+#output.gameover {
+    font-family: 'Oswald';
+    text-align: center;
+    color: rgb(76, 187, 23);
+    font-size: 3rem;
 }

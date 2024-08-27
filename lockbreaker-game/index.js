@@ -10,12 +10,12 @@ const code = {
 }
 
 let locked = true;
-let stage = 1;
+let stage = 3;
 let name = '';
 let output = '';
-let outputColored = [];
+let resultColors = [];
 let timer = -1;
-let flash = false;
+let flashOutput = false;
 let flashButtons = false;
 
 app.use('/static', express.static('./public')); // set location for static files
@@ -23,18 +23,19 @@ app.use(express.urlencoded({ extended: true })); // parse submitted data from fr
 
 // initial page render
 app.get('/', (req, res) => {
-    res.render('index.ejs', { locked: locked, stage: stage, name: name, output: output, outputColored: outputColored, timer: timer, flash: flash, flashButtons: flashButtons });
+    res.render('index.ejs', { locked: locked, stage: stage, name: name, output: output, resultColors: resultColors, timer: timer, flashOutput: flashOutput, flashButtons: flashButtons });
 });
 
 // collect submitted name and unlock keypad
 app.post('/', (req, res) => {
     name = req.body.name;
     flashButtons = false;
-    if (name && timer < 0) {
+
+    if (name && (timer - Date.now()) < 0) {
+        output = '';
         locked = false;
     } else {
         flashButtons = true;
-        output = 'ERROR'
     }
     res.redirect('/');
 });
@@ -42,19 +43,22 @@ app.post('/', (req, res) => {
 app.post('/validate', (req, res) => {
     const pressedButton = req.body.button;
     if (!locked) {
-        flash = false;
-        if (pressedButton === "enter") {
-            outputColored = validate(output);
-            console.log(outputColored);
-            locked = true;
-        } else if (pressedButton === "backspace") {
+        flashOutput = false;
+        if (pressedButton === 'enter') {
+            if (output.length < 8) {
+                flashOutput = true;
+            } else {
+                resultColors = validate();
+                locked = true;
+            }
+        } else if (pressedButton === 'backspace') {
             // if backspace is hit, remove end of number
             output = output.slice(0, -1);
         } else if (output.length < 8) {
             // if number length is less than 8, add to end of number
             output += pressedButton;
         } else {
-            flash = true;
+            flashOutput = true;
         }
     }
     res.redirect('/');
@@ -62,11 +66,12 @@ app.post('/validate', (req, res) => {
 
 // clear variables and redirect to root
 app.post('/reset', (req, res) => {
-    name = "";
-    output = "";
-    outputColored = {};
+    name = '';
+    output = '';
+    resultColors = [];
     locked = true;
     flashButtons = false;
+    timer = -1;
     res.redirect('/');
 });
 
@@ -75,32 +80,56 @@ app.listen(port, () => {
 });
 
 // function to validate input
-function validate(content) {
+function validate() {
     let validation = [];
-    timer = Date.now() + (12*60*60*1000); // 12 hrs from current time
+    //timer = Date.now() + (12*60*60*1000); // 12 hrs from current time
+    timer = Date.now() + (60 * 1000); // 1 minute from current time
 
-    const outputArray = output.split('');
+    // convert code number to string, then split strings to arrays for comparison
     const codeString = code[stage].toString();
-    const codeArray = codeString.split('');
-    outputArray.forEach((num, index) => {
-        if (codeString.search(num) === -1) {
-            validation[index] = {
-                number: num,
-                match: 'white'
-            }
-        } else {
-            validation[index] = {
-                number: num,
-                match: 'yellow'
-            }
+    let outputArray = output.split('');
+    let codeArray = codeString.split('');
+
+    // if output and code matck, return validation array filled with 'match'
+    if (output === codeString) {
+        validation = Array(8).fill('match');
+        return validation;
+    }
+
+    // setup variables to compare and create validation array
+    let match = 0;
+    let yes = 0;
+    let outputNoMatch = [];
+    let codeNoMatch = [];
+    let validateColors = [];
+
+    // check for matches, and calculate match count
+    outputArray.forEach((num, i) => {
+        if (outputArray[i] !== codeArray[i]) {
+            outputNoMatch.push(outputArray[i]);
+            codeNoMatch.push(codeArray[i]);
         }
-        if (outputArray[index] === codeArray[index]) {
-            validation[index] = {
-                number: num,
-                match: 'green'
-            }
+    })
+    match = 8 - outputNoMatch.length;
+
+    // check for match but wrong place, increase yes count
+    outputNoMatch.forEach((num, i) => {
+        if (codeNoMatch.includes(num)) {
+            yes += 1;
+            const codeIndex = codeNoMatch.findIndex(e => e === num);
+            codeNoMatch.splice(codeIndex, 1);
         }
     })
 
+    // add 'match', 'yes', and 'no' to validation array, and reverse to show in desired order
+    for (let i = 1; i <= match; i++) { validateColors.push('match') };
+    for (let i = 1; i <= yes; i++) { validateColors.push('yes') };
+    const length = validateColors.length;
+    for (let i = 8; i > length; i--) {
+        validateColors.push('no');
+    }
+
+    validation = validateColors.reverse();
+    console.log(validation);
     return validation;
 }
