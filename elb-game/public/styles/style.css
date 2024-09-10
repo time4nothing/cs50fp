@@ -109,23 +109,7 @@ body {
 #bottom {
     padding: 10px;
     display: flex;
-    justify-content: space-between;
-}
-
-#stagearea {
-    display: flex;
-}
-
-#stagetext {
-    font-family: 'Oswald';
-    font-size: 3rem;
-    padding-right: 10px;
-    color: white;
-}
-
-.stagelights {
-    padding: 5px;
-    align-self: flex-end;
+    justify-content: center;
 }
 
 #reset {
@@ -133,14 +117,6 @@ body {
     height: 100%;
     border-radius: 10px;
     font-size: 1.2rem;
-}
-
-.light-off {
-    color: grey;
-}
-
-.light-on {
-    color: rgb(76, 187, 23);
 }
 
 svg text {

@@ -3,14 +3,9 @@ import express from 'express';
 const app = express();
 const port = 7001;
 
-const code = {
-    1: 45846846,
-    2: 78945612,
-    3: 12345678
-}
+const code = 12345678
 
 let locked = true;
-let stage = 3;
 let name = '';
 let output = '';
 let resultColors = [];
@@ -23,7 +18,7 @@ app.use(express.urlencoded({ extended: true })); // parse submitted data from fr
 
 // initial page render
 app.get('/', (req, res) => {
-    res.render('index.ejs', { locked: locked, stage: stage, name: name, output: output, resultColors: resultColors, timer: timer, flashOutput: flashOutput, flashButtons: flashButtons });
+    res.render('index.ejs', { locked: locked, name: name, output: output, resultColors: resultColors, timer: timer, flashOutput: flashOutput, flashButtons: flashButtons });
 });
 
 // collect submitted name and unlock keypad
@@ -64,8 +59,8 @@ app.post('/validate', (req, res) => {
     res.redirect('/');
 });
 
-// clear variables and redirect to root
 app.post('/reset', (req, res) => {
+    // clear variables and redirect to root
     name = '';
     output = '';
     resultColors = [];
@@ -86,7 +81,7 @@ function validate() {
     timer = Date.now() + (60 * 1000); // 1 minute from current time
 
     // convert code number to string, then split strings to arrays for comparison
-    const codeString = code[stage].toString();
+    const codeString = code.toString();
     let outputArray = output.split('');
     let codeArray = codeString.split('');
 

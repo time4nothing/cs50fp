@@ -81,36 +81,6 @@
             </form>
 
             <div id="bottom">
-                <div id="stagearea">
-                    <span id="stagetext">STAGE</span>
-                    <div class="stagelights" id="stage1">
-                        <!-- base SVG code courtesy of streamlinehq.com -->
-                        <svg id="light1" class="light-off" fill="currentColor" viewBox="0 0 24 24" height="3rem" width="3rem" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M0.23 3.45c0 -1.77603125 1.44396875 -3.2199999999999998 3.2199999999999998 -3.2199999999999998h16.1c1.77603125 0 3.2199999999999998 1.44396875 3.2199999999999998 3.2199999999999998v16.1c0 1.77603125 -1.44396875 3.2199999999999998 -3.2199999999999998 3.2199999999999998H3.45c-1.77603125 0 -3.2199999999999998 -1.44396875 -3.2199999999999998 -3.2199999999999998V3.45Z"
-                                stroke-width="1"></path>
-                            <text x="50%" y="55%">1</text>
-                        </svg>
-                    </div>
-                    <div class="stagelights" id="stage2">
-                        <!-- base SVG code courtesy of streamlinehq.com -->
-                        <svg id="light2" class="light-off" fill="currentColor" viewBox="0 0 24 24" height="3rem" width="3rem" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M0.23 3.45c0 -1.77603125 1.44396875 -3.2199999999999998 3.2199999999999998 -3.2199999999999998h16.1c1.77603125 0 3.2199999999999998 1.44396875 3.2199999999999998 3.2199999999999998v16.1c0 1.77603125 -1.44396875 3.2199999999999998 -3.2199999999999998 3.2199999999999998H3.45c-1.77603125 0 -3.2199999999999998 -1.44396875 -3.2199999999999998 -3.2199999999999998V3.45Z"
-                                stroke-width="1"></path>
-                            <text x="50%" y="55%">2</text>
-                        </svg>
-                    </div>
-                    <div class="stagelights" id="stage3">
-                        <!-- base SVG code courtesy of streamlinehq.com -->
-                        <svg id="light3" class="light-off" fill="currentColor" viewBox="0 0 24 24" height="3rem" width="3rem" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M0.23 3.45c0 -1.77603125 1.44396875 -3.2199999999999998 3.2199999999999998 -3.2199999999999998h16.1c1.77603125 0 3.2199999999999998 1.44396875 3.2199999999999998 3.2199999999999998v16.1c0 1.77603125 -1.44396875 3.2199999999999998 -3.2199999999999998 3.2199999999999998H3.45c-1.77603125 0 -3.2199999999999998 -1.44396875 -3.2199999999999998 -3.2199999999999998V3.45Z"
-                                stroke-width="1"></path>
-                            <text x="50%" y="55%">3</text>
-                        </svg>
-                    </div>
-                </div>
                 <form action="/reset" method="post">
                     <button id="reset">RESET</button>
                 </form>
@@ -126,7 +96,6 @@
         <% if (locals.resultColors.length > 0) { %>
             resultArray = '<%= resultColors %>'.split(',');
         <% } %>
-        const currentStage = <%= stage %>;
         const lockedStatus = <%= locked %>;
         const flashOutputStatus = <%= flashOutput %>;
         const timerEnd = <%= timer %>;

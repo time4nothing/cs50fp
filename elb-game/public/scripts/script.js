@@ -51,27 +51,6 @@ if (flashOutputStatus) {
     }, 200);
 }
 
-// light stage lights
-if (currentStage == 4) {
-    // cycle lights if game over
-    document.getElementById('output').innerHTML = 'SOLVED';
-    document.getElementById('output').classList.add('gameover');
-    let blink = 1;
-    setInterval(() => {
-        if (blink == 4) {
-            blink = 1;
-        }
-        document.getElementById(`light${blink}`).setAttribute('class', 'light-on');
-        setTimeout(() => {
-            document.getElementById(`light${blink}`).setAttribute('class', 'light-off');
-            blink += 1;
-        }, 300);
-    }, 350);
-} else {
-    // light current stage
-    document.getElementById(`light${currentStage}`).setAttribute('class', 'light-on');
-}
-
 // set color of result lights
 if (resultArray.length > 1) {
     const results = document.getElementsByClassName('resultLights');
