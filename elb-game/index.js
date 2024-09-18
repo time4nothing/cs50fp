@@ -1,17 +1,28 @@
 import express from 'express';
+import pg from 'pg';
+import 'dotenv/config';
 
 const app = express();
 const port = 7001;
 
+const db = new pg.Pool({
+    host: process.env.host,
+    port: process.env.port,
+    database: process.env.database,
+    user: process.env.user,
+    password: process.env.pass
+})
+
 const code = 12345678
 
-let locked = true;
+let player = {};
 let name = '';
 let output = '';
-let resultColors = [];
 let timer = -1;
+let locked = true;
 let flashOutput = false;
 let flashButtons = false;
+let resultColors = [];
 
 app.use('/static', express.static('./public')); // set location for static files
 app.use(express.urlencoded({ extended: true })); // parse submitted data from frontend
@@ -22,7 +33,7 @@ app.get('/', (req, res) => {
 });
 
 // collect submitted name and unlock keypad
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
     name = req.body.name;
     flashButtons = false;
 
@@ -31,6 +42,21 @@ app.post('/', (req, res) => {
         locked = false;
     } else {
         flashButtons = true;
+    }
+
+    // check db for name
+    try {
+        const nameCheck = await db.query('SELECT * FROM names WHERE name = $1;', [name]);
+        if (nameCheck.rowCount === 1) {
+            player = nameCheck.rows[0];
+            player.guesscount++;
+        } else {
+            const newName = await db.query('INSERT INTO names (name, guesscount) VALUES ($1, 1) RETURNING *;', [name]);
+            player = newName.rows[0];
+        }
+    }
+    catch (error) {
+        console.log(error);
     }
     res.redirect('/');
 });
@@ -59,14 +85,20 @@ app.post('/validate', (req, res) => {
     res.redirect('/');
 });
 
-app.post('/reset', (req, res) => {
+app.post('/reset', async (req, res) => {
+    // clear player from database
+    await db.query('DELETE FROM guesses * WHERE user_id = $1;', [player.id]);
+    await db.query('DELETE FROM names * WHERE id = $1;', [player.id]);
+
     // clear variables and redirect to root
+    player = {};
     name = '';
     output = '';
-    resultColors = [];
+    timer = -1;
     locked = true;
     flashButtons = false;
-    timer = -1;
+    resultColors = [];
+
     res.redirect('/');
 });
 
@@ -88,6 +120,7 @@ function validate() {
     // if output and code match, return validation array filled with 'match'
     if (output === codeString) {
         validation = Array(8).fill('match');
+        updateGuesses(validation);
         return validation;
     }
 
@@ -125,5 +158,13 @@ function validate() {
     }
     validation = validateColors;
 
+    updateGuesses(validation);
+
     return validation;
+}
+
+// function to add validation, guess count to database
+function updateGuesses(guessArray) {
+    db.query('INSERT INTO guesses (user_id, timestamp, guess, result) VALUES ($1, $2, $3, $4);', [player.id, Date.now(), output, guessArray.join(';')]);
+    db.query('UPDATE names SET guesscount = $1 WHERE id = $2', [player.guesscount, player.id]);
 }

@@ -113,10 +113,10 @@ body {
 }
 
 #reset {
-    width: 120px;
-    height: 100%;
+    width: 150px;
+    height: 40px;
     border-radius: 10px;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
 
 svg text {
