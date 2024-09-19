@@ -5,15 +5,7 @@ import 'dotenv/config';
 const app = express();
 const port = 7001;
 
-const db = new pg.Pool({
-    host: process.env.host,
-    port: process.env.port,
-    database: process.env.database,
-    user: process.env.user,
-    password: process.env.pass
-})
-
-const code = 12345678
+const db = new pg.Pool()
 
 let player = {};
 let name = '';
@@ -51,7 +43,8 @@ app.post('/', async (req, res) => {
             player = nameCheck.rows[0];
             player.guesscount++;
         } else {
-            const newName = await db.query('INSERT INTO names (name, guesscount) VALUES ($1, 1) RETURNING *;', [name]);
+            const code = 12345678;
+            const newName = await db.query('INSERT INTO names (name, guesscount, code) VALUES ($1, 1, $2) RETURNING *;', [name, code]);
             player = newName.rows[0];
         }
     }
@@ -113,7 +106,7 @@ function validate() {
     timer = Date.now() + (60 * 1000); // 1 minute from current time
 
     // convert code number to string, then split strings to arrays for comparison
-    const codeString = code.toString();
+    const codeString = player.code.toString();
     let outputArray = output.split('');
     let codeArray = codeString.split('');
 
