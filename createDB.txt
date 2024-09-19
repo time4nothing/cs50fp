@@ -1,0 +1,17 @@
+CREATE DATABASE elb_db;
+
+connect elb_db
+
+CREATE TABLE names (
+id SERIAL PRIMARY KEY,
+name VARCHAR(100) NOT NULL,
+guesscount SMALLINT NOT NULL
+);
+
+CREATE TABLE guesses (
+id SERIAL PRIMARY KEY,
+user_id INT NOT NULL references names(id),
+timestamp BIGINT NOT NULL,
+guess INT NOT NULL,
+result VARCHAR(48)
+);
