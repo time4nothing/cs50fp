@@ -5,12 +5,12 @@ import 'dotenv/config';
 const app = express();
 const port = 7001;
 
-const db = new pg.Pool()
+const db = new pg.Pool();
+const lockDelay = (60 * 1000); // 1 minute from current time
+// const lockDelay = (12*60*60*1000); // 12 hrs from current time
 
 let player = {};
-let name = '';
 let output = '';
-let timer = -1;
 let locked = true;
 let flashOutput = false;
 let flashButtons = false;
@@ -21,36 +21,51 @@ app.use(express.urlencoded({ extended: true })); // parse submitted data from fr
 
 // initial page render
 app.get('/', (req, res) => {
-    res.render('index.ejs', { locked: locked, name: name, output: output, resultColors: resultColors, timer: timer, flashOutput: flashOutput, flashButtons: flashButtons });
+    res.render('index.ejs', { locked: locked, name: player.name, output: output, timer: player.timerend, flashOutput: flashOutput, flashButtons: flashButtons, resultColors: resultColors });
 });
 
 // collect submitted name and unlock keypad
 app.post('/', async (req, res) => {
-    name = req.body.name;
+    player = {
+        name: '',
+        guesscount: 0,
+        code: '',
+        timerend: -1
+    };
+    player.name = req.body.name;
     flashButtons = false;
 
-    if (name && (timer - Date.now()) < 0) {
+    if (player.name) {
+        // check db for name
+        try {
+            const nameCheck = await db.query('SELECT * FROM names WHERE name = $1;', [player.name]);
+            if (nameCheck.rowCount === 1) {
+                player = nameCheck.rows[0];
+                player.guesscount++;
+            } else {
+                const code = 12345678;
+                const newName = await db.query('INSERT INTO names (name, guesscount, code, timerend) VALUES ($1, 1, $2, $3) RETURNING *;', [player.name, code, player.timerend]);
+                player = newName.rows[0];
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    if ((player.timerend - Date.now()) < 0) {
+        // if timer reached zero, reset for new guess
         output = '';
+        resultColors = [];
         locked = false;
     } else {
+        // display error, then previous guess and result code
+        const prevGuess = await db.query('SELECT guess,result FROM guesses WHERE user_id = $1 ORDER BY timestamp DESC LIMIT 1;', [ player.id ]);
+        output = prevGuess.rows[0].guess.toString();
+        resultColors = prevGuess.rows[0].result.split(';');
         flashButtons = true;
     }
 
-    // check db for name
-    try {
-        const nameCheck = await db.query('SELECT * FROM names WHERE name = $1;', [name]);
-        if (nameCheck.rowCount === 1) {
-            player = nameCheck.rows[0];
-            player.guesscount++;
-        } else {
-            const code = 12345678;
-            const newName = await db.query('INSERT INTO names (name, guesscount, code) VALUES ($1, 1, $2) RETURNING *;', [name, code]);
-            player = newName.rows[0];
-        }
-    }
-    catch (error) {
-        console.log(error);
-    }
     res.redirect('/');
 });
 
@@ -72,6 +87,7 @@ app.post('/validate', (req, res) => {
             // if number length is less than 8, add to end of number
             output += pressedButton;
         } else {
+            // flash keypad red if too many numbers
             flashOutput = true;
         }
     }
@@ -84,10 +100,13 @@ app.post('/reset', async (req, res) => {
     await db.query('DELETE FROM names * WHERE id = $1;', [player.id]);
 
     // clear variables and redirect to root
-    player = {};
-    name = '';
+    player = {
+        name: '',
+        guesscount: 0,
+        code: '',
+        timerend: -1
+    };
     output = '';
-    timer = -1;
     locked = true;
     flashButtons = false;
     resultColors = [];
@@ -102,8 +121,8 @@ app.listen(port, () => {
 // function to validate input
 function validate() {
     let validation = [];
-    //timer = Date.now() + (12*60*60*1000); // 12 hrs from current time
-    timer = Date.now() + (60 * 1000); // 1 minute from current time
+    player.timerend = Date.now() + lockDelay;
+    db.query('UPDATE names SET timerend = $1 WHERE id = $2', [player.timerend, player.id]);
 
     // convert code number to string, then split strings to arrays for comparison
     const codeString = player.code.toString();
@@ -113,7 +132,7 @@ function validate() {
     // if output and code match, return validation array filled with 'match'
     if (output === codeString) {
         validation = Array(8).fill('match');
-        updateGuesses(validation);
+        updateGuessDB(validation);
         return validation;
     }
 
@@ -134,7 +153,7 @@ function validate() {
     match = 8 - outputNoMatch.length;
 
     // check for match but wrong place, increase yes count
-    outputNoMatch.forEach((num, i) => {
+    outputNoMatch.forEach((num) => {
         if (codeNoMatch.includes(num)) {
             yes += 1;
             const codeIndex = codeNoMatch.findIndex(e => e === num);
@@ -151,13 +170,13 @@ function validate() {
     }
     validation = validateColors;
 
-    updateGuesses(validation);
+    updateGuessDB(validation);
 
     return validation;
 }
 
 // function to add validation, guess count to database
-function updateGuesses(guessArray) {
+function updateGuessDB(guessArray) {
     db.query('INSERT INTO guesses (user_id, timestamp, guess, result) VALUES ($1, $2, $3, $4);', [player.id, Date.now(), output, guessArray.join(';')]);
     db.query('UPDATE names SET guesscount = $1 WHERE id = $2', [player.guesscount, player.id]);
 }

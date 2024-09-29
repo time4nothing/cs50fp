@@ -6,7 +6,8 @@ CREATE TABLE names (
 id SERIAL PRIMARY KEY,
 name VARCHAR(100) NOT NULL,
 guesscount SMALLINT NOT NULL,
-code INT NOT NULL
+code INT NOT NULL,
+timerend BIGINT NOT NULL
 );
 
 CREATE TABLE guesses (
