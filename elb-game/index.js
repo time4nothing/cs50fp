@@ -15,13 +15,26 @@ let locked = true;
 let flashOutput = false;
 let flashButtons = false;
 let resultColors = [];
+let history = [];
 
 app.use('/static', express.static('./public')); // set location for static files
 app.use(express.urlencoded({ extended: true })); // parse submitted data from frontend
 
 // initial page render
-app.get('/', (req, res) => {
-    res.render('index.ejs', { locked: locked, name: player.name, output: output, timer: player.timerend, flashOutput: flashOutput, flashButtons: flashButtons, resultColors: resultColors });
+app.get('/', async (req, res) => {
+    try {
+        const result = await db.query('SELECT guess,result FROM guesses WHERE user_id = $1 ORDER BY timestamp DESC LIMIT 1;', [ player.id ]);
+        console.log(result.rows);
+        if (result.rowCount === 0) {
+            history = [{ guess: 'No previous attempts', result: '' }];
+        } else {
+            history = result.rows;
+        }
+    }
+    catch(error) {
+        console.log(error);
+    }
+    res.render('index.ejs', { locked: locked, name: player.name, output: output, timer: player.timerend, flashOutput: flashOutput, flashButtons: flashButtons, resultColors: resultColors, history: history });
 });
 
 // collect submitted name and unlock keypad
@@ -43,6 +56,7 @@ app.post('/', async (req, res) => {
                 player = nameCheck.rows[0];
                 player.guesscount++;
             } else {
+                // const code = Math.random().toString().slice(2,10);
                 const code = 12345678;
                 const newName = await db.query('INSERT INTO names (name, guesscount, code, timerend) VALUES ($1, 1, $2, $3) RETURNING *;', [player.name, code, player.timerend]);
                 player = newName.rows[0];
