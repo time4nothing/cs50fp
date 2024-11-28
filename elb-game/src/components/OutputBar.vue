@@ -1,8 +1,15 @@
 <template>
     <div id="output">
-        <%= output %>
+        {{ output.guess }}
     </div>
 </template>
+
+<script setup>
+import { storeToRefs } from 'pinia';
+import { useGuessStore } from '../stores/guesses.js';
+
+const output = storeToRefs(useGuessStore());
+</script>
 
 <style scoped>
 #output {

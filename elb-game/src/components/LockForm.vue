@@ -1,22 +1,28 @@
 <template>
     <div id="top">
-        <input id="name" name="name" value="<%= name %>" size="20" autocomplete="off">
-        <button type="submit" :disabled="!keypadLockStatus" @click="lockToggle">{{ keypadLockStatus ? 'Locked' : 'Unlocked' }}</button>
+        <input id="name" name="name" :value="user.name" size="20" autocomplete="off">
+        <button type="submit" :disabled="!keypadLockStatus" @click="lockToggle">{{ keypadLockStatus ? 'Unlock' : 'Unlocked' }}</button>
     </div>
 
     <div id="unlocktimer">
         <span id="delaytext">Lock Delay</span>
-        <div id="timer"></div>
+        <div id="timer">{{ timerLength }}</div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useUserStore } from '../stores/user.js';
+import { useTimerStore } from '../stores/timer.js';
+import { useKeypadStore } from '../stores/keypad.js';
 
-const keypadLockStatus = ref(true);
+const { keypadLockStatus } = storeToRefs(useKeypadStore());
+const { user } = storeToRefs(useUserStore());
+const { timerLength } = storeToRefs(useTimerStore());
+const { toggleLock } = useKeypadStore();
 
 function lockToggle() {
-    keypadLockStatus.value = !keypadLockStatus.value;
+    toggleLock();
 }
 </script>
 
@@ -50,5 +56,6 @@ function lockToggle() {
     color: red;
     font-family: 'DSEG7 Modern';
     align-content: center;
+    text-align: center;
 }
 </style>
