@@ -1,6 +1,6 @@
 <template>
-    <div id="output">
-        {{ output.guess }}
+    <div :class="['output', { 'is-error': guessLocked }]">
+        {{ guess }}
     </div>
 </template>
 
@@ -8,11 +8,11 @@
 import { storeToRefs } from 'pinia';
 import { useGuessStore } from '../stores/guesses.js';
 
-const output = storeToRefs(useGuessStore());
+const { guess, guessLocked } = storeToRefs(useGuessStore());
 </script>
 
 <style scoped>
-#output {
+.output {
     background-color: black;
     height: 70px;
     width: 420px;
@@ -23,5 +23,9 @@ const output = storeToRefs(useGuessStore());
     font-family: 'DSEG7 Modern';
     color: white;
     text-align: right;
+}
+
+.is-error {
+    border-color: red;
 }
 </style>

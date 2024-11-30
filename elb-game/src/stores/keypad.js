@@ -2,11 +2,12 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useKeypadStore = defineStore('keypad', () => {
-    const keypadLockStatus = ref(true);
+    const keypadLocked = ref(true);
+    const keypadError = ref(false);
 
     function toggleLock() {
-        keypadLockStatus.value = !keypadLockStatus.value;
+        keypadLocked.value = !keypadLocked.value;
     }
 
-    return { keypadLockStatus, toggleLock };
+    return { keypadLocked, keypadError, toggleLock };
 })
