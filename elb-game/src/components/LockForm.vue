@@ -1,7 +1,9 @@
 <template>
     <div id="top">
-        <input id="name" name="name" :value="user.name" size="20" autocomplete="off">
-        <button type="submit" :disabled="!keypadLocked" @click="lockToggle">{{ keypadLocked ? 'Unlock' : 'Unlocked' }}</button>
+        <input id="name" name="name" :value="user.name" size="20" autocomplete="off"
+               placeholder="Enter a name">
+        <button type="submit" :disabled="!keypadLocked" @click="unlock">{{ keypadLocked ?
+            'Unlock' : 'Unlocked' }}</button>
     </div>
 
     <div id="unlocktimer">
@@ -16,14 +18,15 @@ import { useUserStore } from '../stores/user.js';
 import { useTimerStore } from '../stores/timer.js';
 import { useKeypadStore } from '../stores/keypad.js';
 
-const { keypadLocked } = storeToRefs(useKeypadStore());
 const { user } = storeToRefs(useUserStore());
+const { isUser } = useUserStore();
 const { timerLength } = storeToRefs(useTimerStore());
-const { toggleLock } = useKeypadStore();
-console.log(timerLength)
+const { keypadLocked } = storeToRefs(useKeypadStore());
+const { unlockKeypad } = useKeypadStore();
 
-function lockToggle() {
-    toggleLock();
+function unlock() {
+    isUser(user.value);
+    unlockKeypad();
 }
 </script>
 

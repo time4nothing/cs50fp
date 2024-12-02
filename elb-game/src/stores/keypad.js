@@ -5,9 +5,9 @@ export const useKeypadStore = defineStore('keypad', () => {
     const keypadLocked = ref(true);
     const keypadError = ref(false);
 
-    function toggleLock() {
+    function unlockKeypad() {
         keypadLocked.value = !keypadLocked.value;
     }
 
-    return { keypadLocked, keypadError, toggleLock };
+    return { keypadLocked, keypadError, unlockKeypad };
 })

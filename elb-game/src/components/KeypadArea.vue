@@ -1,16 +1,16 @@
 <template>
     <div id="keypad">
-        <KeypadButton value="1" text="1"/>
-        <KeypadButton value="2" text="2"/>
-        <KeypadButton value="3" text="3"/>
-        <KeypadButton value="4" text="4"/>
-        <KeypadButton value="5" text="5"/>
-        <KeypadButton value="6" text="6"/>
-        <KeypadButton value="7" text="7"/>
-        <KeypadButton value="8" text="8"/>
-        <KeypadButton value="9" text="9"/>
+        <KeypadButton value="1" text="1" />
+        <KeypadButton value="2" text="2" />
+        <KeypadButton value="3" text="3" />
+        <KeypadButton value="4" text="4" />
+        <KeypadButton value="5" text="5" />
+        <KeypadButton value="6" text="6" />
+        <KeypadButton value="7" text="7" />
+        <KeypadButton value="8" text="8" />
+        <KeypadButton value="9" text="9" />
         <KeypadButton value="backspace" />
-        <KeypadButton value="0" text="0"/>
+        <KeypadButton value="0" text="0" />
         <KeypadButton value="enter" />
     </div>
 </template>

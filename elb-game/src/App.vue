@@ -12,22 +12,6 @@
         </div>
         <HistorySlideout />
     </div>
-    <!-- // setup backend variables for frontend external javascript
-    <script>
-        <% if (locals.output.length > 0) { %>
-            const outputCode = <%= output %>;
-        <% } %>
-        let resultArray = [];
-        <% if (locals.resultColors.length > 0) { %>
-            resultArray = '<%= resultColors %>'.split(',');
-        <% } %>
-        const lockedStatus = <%= locked %>;
-        const flashOutputStatus = <%= flashOutput %>;
-        const timerEnd = <%= timer %>;
-        const flashButtonsStatus = <%= flashButtons %>;
-    </script>
-    // load external js file
-    <script src="./static/scripts/script.js"></script> -->
 </template>
 
 <script setup>

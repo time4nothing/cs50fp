@@ -1,5 +1,7 @@
 <template>
-    <button class="keypad-button" :class="{ 'is-error': keypadError }" name="button" :value="props.value" @click="updateGuess(props.value)">
+    <button class="keypad-button" :class="{ 'is-error': keypadError, 'is-locked': keypadLocked }"
+            name="button" :value="props.value" @click="updateGuess(props.value)"
+            :disabled="keypadLocked">
         <span v-if="props.value === 'backspace'">
             <BackspaceButton />
         </span>
@@ -19,7 +21,7 @@ import EnterButton from './SVGs/EnterButton.vue';
 import BackspaceButton from './SVGs/BackspaceButton.vue';
 
 const props = defineProps(['value', 'text']);
-const { keypadError } = storeToRefs(useKeypadStore());
+const { keypadLocked, keypadError } = storeToRefs(useKeypadStore());
 const { updateGuess } = useGuessStore();
 </script>
 
