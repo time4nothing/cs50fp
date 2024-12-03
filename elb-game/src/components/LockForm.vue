@@ -1,6 +1,6 @@
 <template>
     <div id="top">
-        <input id="name" name="name" :value="user.name" size="20" autocomplete="off"
+        <input id="name" name="name" v-model="user.name" size="20" autocomplete="off"
                placeholder="Enter a name">
         <button type="submit" :disabled="!keypadLocked" @click="unlock">{{ keypadLocked ?
             'Unlock' : 'Unlocked' }}</button>
@@ -8,7 +8,7 @@
 
     <div id="unlocktimer">
         <span id="delaytext">Lock Delay</span>
-        <div id="timer">{{ timerLength }}</div>
+        <div id="timer">{{ timer < 0 ? '' : formattedTimer(timer) }}</div>
     </div>
 </template>
 
@@ -20,7 +20,7 @@ import { useKeypadStore } from '../stores/keypad.js';
 
 const { user } = storeToRefs(useUserStore());
 const { isUser } = useUserStore();
-const { timerLength } = storeToRefs(useTimerStore());
+const { timer, formattedTimer } = storeToRefs(useTimerStore());
 const { keypadLocked } = storeToRefs(useKeypadStore());
 const { unlockKeypad } = useKeypadStore();
 

@@ -28,4 +28,11 @@ const { guess, guessLocked } = storeToRefs(useGuessStore());
 .is-error {
     border-color: red;
 }
+
+#output.gameover {
+    font-family: 'Oswald';
+    text-align: center;
+    color: rgb(76, 187, 23);
+    font-size: 3rem;
+}
 </style>

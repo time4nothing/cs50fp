@@ -1,15 +1,12 @@
 <template>
     <div id="resultSet">
-        <div id="result1" class="resultLights"></div>
-        <div id="result2" class="resultLights"></div>
-        <div id="result3" class="resultLights"></div>
-        <div id="result4" class="resultLights"></div>
-        <div id="result5" class="resultLights"></div>
-        <div id="result6" class="resultLights"></div>
-        <div id="result7" class="resultLights"></div>
-        <div id="result8" class="resultLights"></div>
+        <div v-for="(light, index) in props.resultArray" :key="index" class="resultLights" :class="light"></div>
     </div>
 </template>
+
+<script setup>
+const props = defineProps(['resultArray']);
+</script>
 
 <style scoped>
 #resultSet {

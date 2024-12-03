@@ -2,12 +2,12 @@
     <div id="page">
         <div id="panel">
             <LockForm />
-            <ResultLights />
+            <ResultLights :resultArray="resultArray"/>
             <OutputBar />
             <KeypadArea />
 
             <div id="bottom">
-                <button id="reset-button">New Game</button>
+                <ResetButton />
             </div>
         </div>
         <HistorySlideout />
@@ -20,6 +20,12 @@ import ResultLights from './components/ResultLights.vue';
 import OutputBar from './components/OutputBar.vue';
 import KeypadArea from './components/KeypadArea.vue';
 import HistorySlideout from './components/HistorySlideout.vue';
+import ResetButton from './components/ResetButton.vue';
+
+import { storeToRefs } from 'pinia';
+import { useGuessStore } from './stores/guesses.js';
+
+const { resultArray } = storeToRefs(useGuessStore());
 </script>
 
 <style>
@@ -46,19 +52,5 @@ body {
     padding: 10px;
     display: flex;
     justify-content: center;
-}
-
-#reset-button {
-    width: 150px;
-    height: 40px;
-    border-radius: 10px;
-    font-size: 1.4rem;
-}
-
-#output.gameover {
-    font-family: 'Oswald';
-    text-align: center;
-    color: rgb(76, 187, 23);
-    font-size: 3rem;
 }
 </style>
