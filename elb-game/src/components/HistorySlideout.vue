@@ -21,13 +21,13 @@ import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
 //store imports
-import { useGuessStore } from '../stores/guesses.js';
+import { useHistoryStore } from '../stores/history.js';
 
 //component imports
 import ResultLights from './resultLights.vue';
 
 // store refs
-const { guessHistory } = storeToRefs(useGuessStore());
+const { guessHistory } = storeToRefs(useHistoryStore());
 
 // local setup
 const historyShow = ref(false);

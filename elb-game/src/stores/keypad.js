@@ -1,7 +1,11 @@
+// system imports
 import { ref } from 'vue';
 import { defineStore, storeToRefs } from 'pinia';
+
+// store imports
 import { useTimerStore } from './timer.js';
 
+// define store
 export const useKeypadStore = defineStore('keypad', () => {
     // local variables
     const keypadLocked = ref(true);

@@ -1,19 +1,26 @@
+// system imports
 import { ref } from 'vue';
 import { defineStore, storeToRefs } from 'pinia';
+
+// store imports
 import { useUserStore } from './user.js';
 import { useKeypadStore } from './keypad.js';
+import { useHistoryStore } from './history.js';
 
+// define store
 export const useGuessStore = defineStore('guesses', () => {
     // local variables
     const guess = ref('12345678');
     const resultArray = ref(['no', 'no', 'no', 'no', 'no', 'no', 'no', 'no']);
-    const guessHistory = ref([]);
     const guessLocked = ref(false);
     const guessError = ref(false);
 
     // store refs
     const { user, usertimerend } = storeToRefs(useUserStore());
     const { keypadError, keypadLocked } = storeToRefs(useKeypadStore());
+
+    // store functions
+    const { updateHistory } = useHistoryStore();
 
     // respond to key selections
     function updateGuess(event) {
@@ -52,23 +59,5 @@ export const useGuessStore = defineStore('guesses', () => {
         updateHistory(user.value.id);
     }
 
-    // update guess history array
-    async function updateHistory(userId) {
-        try {
-            const response = await fetch('http://localhost:5050/gethistory', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ userId: userId })
-            })
-            const result = await response.json();
-            guessHistory.value = JSON.parse(result);
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-
-    return { guess, resultArray, guessHistory, guessLocked, guessError, updateGuess, updateHistory };
+    return { guess, resultArray, guessLocked, guessError, updateGuess };
 });

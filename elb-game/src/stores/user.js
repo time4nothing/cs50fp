@@ -1,6 +1,11 @@
+// system imports
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+// store imports
+import { useHistoryStore } from './history';
+
+// define store
 export const useUserStore = defineStore('user', () => {
   // local variables
   const user = ref({
@@ -10,7 +15,9 @@ export const useUserStore = defineStore('user', () => {
     timerend: -1
   });
   const usertimerend = ref(user.value.timerend);
-  // const { updateHistory } = useGuessStore();
+
+  // store functions
+  const { updateHistory } = useHistoryStore();
 
   // check if user in database or add
   async function updateUser(userInfo) {
@@ -27,7 +34,7 @@ export const useUserStore = defineStore('user', () => {
       console.log(error);
     }
 
-    //updateHistory(user.value.id);
+    updateHistory(user.value.id);
   }
 
   return { user, usertimerend, updateUser };

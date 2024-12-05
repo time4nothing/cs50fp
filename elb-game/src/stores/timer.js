@@ -1,7 +1,11 @@
+// system imports
 import { ref, watch } from 'vue';
 import { defineStore, storeToRefs } from 'pinia'
+
+// store imports
 import { useUserStore } from './user';
 
+// define store
 export const useTimerStore = defineStore('timer', () => {
     // local variables
     const timer = ref(usertimerend);
