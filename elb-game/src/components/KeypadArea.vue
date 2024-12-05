@@ -16,27 +16,51 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+// system imports
+import { watch } from 'vue';
 import { storeToRefs } from 'pinia';
+
+// store imports
 import { useGuessStore } from '../stores/guesses.js';
 import { useKeypadStore } from '../stores/keypad.js';
 
+// component imports
 import KeypadButton from './KeypadButton.vue';
 
-const { guess } = storeToRefs(useGuessStore());
-const { keypadError } = storeToRefs(useKeypadStore());
-const guessError = ref(false);
+// store refs
+const { guess, guessLocked, guessError } = storeToRefs(useGuessStore());
+const { keypadLocked, keypadError, unlockError } = storeToRefs(useKeypadStore());
 
-// buttons flash red if keypadError
+// local setup
+// Error flash - unlocks keypad after error
 watch(keypadError, () => {
     const guessTemp = guess.value;
     if (keypadError.value) {
         guess.value = 'Error';
+        guessLocked.value = true;
+        guessError.value = true;
+        keypadLocked.value = true;
+        setTimeout(() => {
+            guess.value = guessTemp;
+            guessLocked.value = false;
+            guessError.value = false;
+            keypadLocked.value = false;
+        }, 700);
+    }
+})
+
+// Error flash - does NOT unlock keypad after error
+watch(unlockError, () => {
+    const guessTemp = guess.value;
+    if (unlockError.value) {
+        guess.value = 'Error';
+        guessLocked.value = true;
         guessError.value = true;
         setTimeout(() => {
             guess.value = guessTemp;
+            guessLocked.value = false;
             guessError.value = false;
-        }, 1200);
+        }, 700);
     }
 })
 </script>

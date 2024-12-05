@@ -16,13 +16,20 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
+// system imports
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+
+//store imports
 import { useGuessStore } from '../stores/guesses.js';
 
+//component imports
 import ResultLights from './resultLights.vue';
 
+// store refs
 const { guessHistory } = storeToRefs(useGuessStore());
+
+// local setup
 const historyShow = ref(false);
 
 function historyToggle() {

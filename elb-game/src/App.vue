@@ -2,7 +2,7 @@
     <div id="page">
         <div id="panel">
             <LockForm />
-            <ResultLights :resultArray="resultArray"/>
+            <ResultLights :resultArray="resultArray" />
             <OutputBar />
             <KeypadArea />
 
@@ -15,6 +15,11 @@
 </template>
 
 <script setup>
+// store imports
+import { storeToRefs } from 'pinia';
+import { useGuessStore } from './stores/guesses.js';
+
+// component imports
 import LockForm from './components/LockForm.vue';
 import ResultLights from './components/ResultLights.vue';
 import OutputBar from './components/OutputBar.vue';
@@ -22,9 +27,7 @@ import KeypadArea from './components/KeypadArea.vue';
 import HistorySlideout from './components/HistorySlideout.vue';
 import ResetButton from './components/ResetButton.vue';
 
-import { storeToRefs } from 'pinia';
-import { useGuessStore } from './stores/guesses.js';
-
+// store refs
 const { resultArray } = storeToRefs(useGuessStore());
 </script>
 

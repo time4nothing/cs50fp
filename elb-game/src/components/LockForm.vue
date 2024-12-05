@@ -1,33 +1,59 @@
 <template>
     <div id="top">
         <input id="name" name="name" v-model="user.name" size="20" autocomplete="off"
-               placeholder="Enter a name">
-        <button type="submit" :disabled="!keypadLocked" @click="unlock">{{ keypadLocked ?
-            'Unlock' : 'Unlocked' }}</button>
+               placeholder="Enter a name" />
+        <button id="unlock-button" type="submit" :disabled="!keypadLocked || guessError"
+                @click="unlock">
+            {{ keypadLocked ? 'Unlock' : 'Unlocked' }}
+        </button>
     </div>
 
     <div id="unlocktimer">
         <span id="delaytext">Lock Delay</span>
-        <div id="timer">{{ timer < 0 ? '' : formattedTimer(timer) }}</div>
-    </div>
+        <div id="timer">{{ timer < 0 ? '' : formattedTimer }}</div>
+        </div>
 </template>
 
 <script setup>
+// system imports
+import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useUserStore } from '../stores/user.js';
-import { useTimerStore } from '../stores/timer.js';
-import { useKeypadStore } from '../stores/keypad.js';
 
+// store imports
+import { useUserStore } from '../stores/user.js';
+import { useGuessStore } from '../stores/guesses.js';
+import { useKeypadStore } from '../stores/keypad.js';
+import { useTimerStore } from '../stores/timer.js';
+
+// store refs
 const { user } = storeToRefs(useUserStore());
-const { isUser } = useUserStore();
-const { timer, formattedTimer } = storeToRefs(useTimerStore());
+const { guessError } = storeToRefs(useGuessStore());
 const { keypadLocked } = storeToRefs(useKeypadStore());
+const { timer } = storeToRefs(useTimerStore());
+
+// store functions
+const { updateUser } = useUserStore();
 const { unlockKeypad } = useKeypadStore();
 
+// local setup
 function unlock() {
-    isUser(user.value);
+    updateUser(user.value);
     unlockKeypad();
 }
+
+const formattedTimer = computed(() => {
+    const timeLeft = timer.value;
+    let hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+    let minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+    let seconds = Math.floor((timeLeft / 1000) % 60);
+
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    const display = `${hours}:${minutes}:${seconds}`;
+
+    return display;
+})
 </script>
 
 <style scoped>
@@ -36,6 +62,10 @@ function unlock() {
     padding: 10px;
     display: flex;
     justify-content: center;
+}
+
+#unlock-button {
+    width: 75px;
 }
 
 #unlocktimer {

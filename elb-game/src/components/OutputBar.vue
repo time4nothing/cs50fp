@@ -5,9 +5,13 @@
 </template>
 
 <script setup>
+// system imports
 import { storeToRefs } from 'pinia';
+
+// store imports
 import { useGuessStore } from '../stores/guesses.js';
 
+// store refs
 const { guess, guessLocked } = storeToRefs(useGuessStore());
 </script>
 

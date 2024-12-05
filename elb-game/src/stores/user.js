@@ -1,17 +1,19 @@
-import { defineStore, storeToRefs } from 'pinia'
 import { ref } from 'vue'
-import { useGuessStore } from './guesses';
+import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
+  // local variables
   const user = ref({
     id: '',
     name: 'Jerry',
     guesscount: 0,
     timerend: -1
   });
-  const guessHistory = storeToRefs(useGuessStore());
+  const usertimerend = ref(user.value.timerend);
+  // const { updateHistory } = useGuessStore();
 
-  async function isUser(userInfo) {
+  // check if user in database or add
+  async function updateUser(userInfo) {
     try {
       const response = await fetch('http://localhost:5050/checkuser', {
         method: 'POST',
@@ -25,22 +27,8 @@ export const useUserStore = defineStore('user', () => {
       console.log(error);
     }
 
-    // update guessHistory
-    try {
-      const response = await fetch('http://localhost:5050/gethistory', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userId: user.value.id })
-      })
-      const result = await response.json();
-      guessHistory.value = JSON.parse(result);
-    }
-    catch (error) {
-      console.log(error);
-    }
+    //updateHistory(user.value.id);
   }
 
-  return { user, isUser };
+  return { user, usertimerend, updateUser };
 });

@@ -1,33 +1,24 @@
+import { ref, watch } from 'vue';
 import { defineStore, storeToRefs } from 'pinia'
-import { ref, computed, watch } from 'vue';
 import { useUserStore } from './user';
 
 export const useTimerStore = defineStore('timer', () => {
-    const { user } = storeToRefs(useUserStore());
-    const timer = ref(user.value.timerend - Date.now());
+    // local variables
+    const timer = ref(usertimerend);
 
-    const formattedTimer = computed((timer) => {
-        const timeLeft = timer;
-        let hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
-        let minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
-        let seconds = Math.floor((timeLeft / 1000) % 60);
+    // store refs
+    const { usertimerend } = storeToRefs(useUserStore());
 
-        hours = hours < 10 ? '0' + hours : hours;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-        const display = `${hours}:${minutes}:${seconds}`;
-
-        return display;
+    // watcher to update countdown timer
+    watch(usertimerend, () => {
+        const countdown = setInterval(() => {
+            timer.value = usertimerend.value - Date.now();
+            console.log(timer.value)
+            if (timer.value < 0) {
+                clearInterval(countdown);
+            }
+        }, 1000)
     })
 
-    watch(timer, () => {
-        if (timer.value > 0) {
-            setInterval(() => {
-                timer.value = user.value.timerend - Date.now();
-                console.log(timer.value)
-            }, 1000)
-        }
-    })
-
-    return { timer, formattedTimer };
+    return { timer };
 });

@@ -84,7 +84,7 @@ app.post('/validate', async (req, res) => {
     if (player.guess === codeString) {
         validation = Array(8).fill('match');
         updateGuessDB(validation, player);
-        res.json(validation);
+        res.json({ results: validation, timerend: player.timerend });
         return;
     }
 
@@ -124,7 +124,7 @@ app.post('/validate', async (req, res) => {
 
     updateGuessDB(validation, player);
 
-    res.json(validation);
+    res.json({ results: validation, timerend: player.timerend });
 })
 
 // function to add validation, guess count to database
