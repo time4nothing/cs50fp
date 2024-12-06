@@ -10,7 +10,7 @@
 
     <div id="unlocktimer">
         <span id="delaytext">Lock Delay</span>
-        <div id="timer">{{ timer < 0 ? '' : formattedTimer }}</div>
+        <div id="timer">{{ timer < 0 ? '00:00:00' : formattedTimer }}</div>
         </div>
 </template>
 
@@ -33,11 +33,13 @@ const { timer } = storeToRefs(useTimerStore());
 
 // store functions
 const { updateUser } = useUserStore();
+const { clearGuess } = useGuessStore();
 const { unlockKeypad } = useKeypadStore();
 
 // local setup
 function unlock() {
     updateUser(user.value);
+    clearGuess();
     unlockKeypad();
 }
 

@@ -59,5 +59,9 @@ export const useGuessStore = defineStore('guesses', () => {
         updateHistory(user.value.id);
     }
 
-    return { guess, resultArray, guessLocked, guessError, updateGuess };
+    function clearGuess() {
+        guess.value = '';
+    }
+
+    return { guess, resultArray, guessLocked, guessError, updateGuess, clearGuess };
 });

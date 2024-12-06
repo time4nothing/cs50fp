@@ -8,13 +8,8 @@ import { useHistoryStore } from './history';
 // define store
 export const useUserStore = defineStore('user', () => {
   // local variables
-  const user = ref({
-    id: '',
-    name: 'Jerry',
-    guesscount: 0,
-    timerend: -1
-  });
-  const usertimerend = ref(user.value.timerend);
+  const user = ref({});
+  const usertimerend = ref('');
 
   // store functions
   const { updateHistory } = useHistoryStore();
@@ -30,6 +25,7 @@ export const useUserStore = defineStore('user', () => {
         body: JSON.stringify(userInfo)
       });
       user.value = await response.json();
+      usertimerend.value = +user.value.timerend;
     } catch (error) {
       console.log(error);
     }
@@ -37,5 +33,19 @@ export const useUserStore = defineStore('user', () => {
     updateHistory(user.value.id);
   }
 
-  return { user, usertimerend, updateUser };
+  async function clearUser(playerId) {
+    try {
+      await fetch('http://localhost:5050/resetuser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ playerId: playerId })
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return { user, usertimerend, updateUser, clearUser };
 });

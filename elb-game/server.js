@@ -7,8 +7,8 @@ import cors from 'cors';
 
 const app = express();
 const PORT = 5050;
-const lockDelay = (60 * 1000); // 1 minute from current time
-// const lockDelay = (12*60*60*1000); // 12 hrs from current time
+const lockDelay = (60 * 100); // 10 seconds from current time
+/// const lockDelay = (12*60*60*1000); // 12 hrs from current time
 
 // setup database and error handling
 const db = new pg.Pool();
@@ -31,10 +31,10 @@ app.post('/gethistory', async (req, res) => {
     let playerId = req.body.userId;
     let history = [];
     try {
-        const result = await db.query('SELECT guess,result FROM guesses WHERE user_id = $1 ORDER BY timestamp DESC LIMIT 1;', [ playerId ]);
+        const result = await db.query('SELECT guess,result FROM guesses WHERE user_id = $1 ORDER BY timestamp;', [playerId]);
         history = result.rows;
     }
-    catch(error) {
+    catch (error) {
         console.log(`Error: ${error.message}`);
     }
 
@@ -53,7 +53,7 @@ app.post('/checkuser', async (req, res) => {
             } else {
                 // const code = Math.random().toString().slice(2,10);
                 const code = 12345678;
-                const newName = await db.query('INSERT INTO names (name, guesscount, code, timerend) VALUES ($1, 1, $2, $3) RETURNING *;', [player.name, code, player.timerend]);
+                const newName = await db.query('INSERT INTO names (name, guesscount, code, timerend) VALUES ($1, 1, $2, $3) RETURNING *;', [player.name, code, -1]);
                 player = newName.rows[0];
             }
         }
@@ -70,10 +70,15 @@ app.post('/validate', async (req, res) => {
     let validation = [];
     // update timerend
     player.timerend = Date.now() + lockDelay;
-    db.query('UPDATE names SET timerend = $1 WHERE id = $2', [player.timerend, player.id]);
-    // fetch secret code
-    const result = await db.query('SELECT code FROM names WHERE id = $1', [player.id]);
-    player.code = result.rows[0].code;
+    try {
+        db.query('UPDATE names SET timerend = $1 WHERE id = $2', [player.timerend, player.id]);
+        // fetch secret code
+        const result = await db.query('SELECT code FROM names WHERE id = $1', [player.id]);
+        player.code = result.rows[0].code;
+    }
+    catch (error) {
+        console.log(error);
+    }
 
     // convert code number to string, then split strings to arrays for comparison
     const codeString = player.code.toString();
@@ -133,8 +138,26 @@ function updateGuessDB(guessArray, player) {
     db.query('UPDATE names SET guesscount = $1 WHERE id = $2', [player.guesscount, player.id]);
 }
 
+app.post('/resetuser', async (req) => {
+    const playerId = req.body.playerId;
+    // clear player from database
+    try {
+        await db.query('DELETE FROM guesses * WHERE user_id = $1;', [playerId]);
+    }
+    catch (error) {
+        console.log("Error deleting guesses", error);
+    }
+
+    try {
+        await db.query('DELETE FROM names * WHERE id = $1;', [playerId]);
+    }
+    catch (error) {
+        console.log("Error deleting user", error);
+    }
+})
+
 // app.get('/*', serveVueApp);
 
 app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`);
+    console.log(`"Electronic Lock Breaker" listening on port ${PORT}`);
 })

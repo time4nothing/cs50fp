@@ -7,6 +7,7 @@
             <KeypadArea />
 
             <div id="bottom">
+                <GuessCounter />
                 <ResetButton />
             </div>
         </div>
@@ -15,8 +16,10 @@
 </template>
 
 <script setup>
-// store imports
+// system imports
 import { storeToRefs } from 'pinia';
+
+// store imports
 import { useGuessStore } from './stores/guesses.js';
 
 // component imports
@@ -25,6 +28,7 @@ import ResultLights from './components/ResultLights.vue';
 import OutputBar from './components/OutputBar.vue';
 import KeypadArea from './components/KeypadArea.vue';
 import HistorySlideout from './components/HistorySlideout.vue';
+import GuessCounter from './components/GuessCounter.vue';
 import ResetButton from './components/ResetButton.vue';
 
 // store refs
@@ -54,6 +58,6 @@ body {
 #bottom {
     padding: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 </style>

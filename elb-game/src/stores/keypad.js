@@ -17,7 +17,7 @@ export const useKeypadStore = defineStore('keypad', () => {
 
     // unlock keypad if timer countdown done
     function unlockKeypad() {
-        if (timer.value < 0) {
+        if (timer.value <= 0) {
             keypadLocked.value = !keypadLocked.value;
         } else {
             unlockError.value = true;

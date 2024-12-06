@@ -7,21 +7,22 @@ import { useUserStore } from './user';
 
 // define store
 export const useTimerStore = defineStore('timer', () => {
-    // local variables
-    const timer = ref(usertimerend);
-
     // store refs
     const { usertimerend } = storeToRefs(useUserStore());
 
+    // local variables
+    const timer = ref(0);
+
     // watcher to update countdown timer
-    watch(usertimerend, () => {
+    watch(usertimerend, (newValue) => {
+        timer.value = (newValue - Date.now());
         const countdown = setInterval(() => {
-            timer.value = usertimerend.value - Date.now();
-            console.log(timer.value)
-            if (timer.value < 0) {
+            timer.value = (newValue - Date.now());
+            if (timer.value <= 0) {
                 clearInterval(countdown);
             }
         }, 1000)
+        
     })
 
     return { timer };

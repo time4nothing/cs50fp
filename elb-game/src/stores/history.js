@@ -25,5 +25,5 @@ export const useHistoryStore = defineStore('history', () => {
         }
     }
 
-    return { updateHistory };
+    return { guessHistory, updateHistory };
 });
