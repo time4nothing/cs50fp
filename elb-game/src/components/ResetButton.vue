@@ -10,6 +10,7 @@ import { storeToRefs } from 'pinia';
 import { useUserStore } from '../stores/user.js';
 import { useGuessStore } from '../stores/guesses.js';
 import { useKeypadStore } from '../stores/keypad.js';
+import { useHistoryStore } from '../stores/history.js';
 
 // store refs
 const { user, usertimerend } = storeToRefs(useUserStore());
@@ -17,15 +18,17 @@ const { guess, resultArray } = storeToRefs(useGuessStore());
 const { keypadLocked } = storeToRefs(useKeypadStore());
 
 // store functions
-const { clearUser } = useUserStore();
+const { clearUserFromDB } = useUserStore();
+const { clearHistory } = useHistoryStore();
 
 // local setup
 function newGame() {
-    clearUser(user.value.id);
+    clearUserFromDB(user.value.id);
     user.value = {};
     usertimerend.value = '';
     guess.value = '';
     resultArray.value = ['no', 'no', 'no', 'no', 'no', 'no', 'no', 'no'];
+    clearHistory();
     keypadLocked.value = true;
 }
 </script>

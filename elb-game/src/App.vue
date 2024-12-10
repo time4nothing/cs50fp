@@ -56,7 +56,7 @@ body {
 }
 
 #bottom {
-    padding: 10px;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
 }

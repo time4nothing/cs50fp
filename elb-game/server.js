@@ -138,7 +138,7 @@ function updateGuessDB(guessArray, player) {
     db.query('UPDATE names SET guesscount = $1 WHERE id = $2', [player.guesscount, player.id]);
 }
 
-app.post('/resetuser', async (req) => {
+app.post('/clearfromdatabase', async (req) => {
     const playerId = req.body.playerId;
     // clear player from database
     try {

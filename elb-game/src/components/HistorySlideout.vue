@@ -1,7 +1,14 @@
 <template>
     <div id="history">
         <div @click="historyToggle">
-            Previous Guesses
+            <span v-if="!historyShow">
+                <RightArrow /> Previous Guesses
+                <RightArrow />
+            </span>
+            <span v-else>
+                <LeftArrow /> Previous Guesses
+                <LeftArrow />
+            </span>
             <div id="history-open" v-if="historyShow">
                 <div v-if="guessHistory.length === 0">No previous guesses</div>
                 <div v-else>
@@ -25,6 +32,8 @@ import { useHistoryStore } from '../stores/history.js';
 
 //component imports
 import ResultLights from './resultLights.vue';
+import RightArrow from './SVGs/RightArrow.vue';
+import LeftArrow from './SVGs/LeftArrow.vue';
 
 // store refs
 const { guessHistory } = storeToRefs(useHistoryStore());

@@ -33,9 +33,9 @@ export const useUserStore = defineStore('user', () => {
     updateHistory(user.value.id);
   }
 
-  async function clearUser(playerId) {
+  async function clearUserFromDB(playerId) {
     try {
-      await fetch('http://localhost:5050/resetuser', {
+      await fetch('http://localhost:5050/clearfromdatabase', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -47,5 +47,5 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  return { user, usertimerend, updateUser, clearUser };
+  return { user, usertimerend, updateUser, clearUserFromDB };
 });
