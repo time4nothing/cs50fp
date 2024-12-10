@@ -1,11 +1,13 @@
 <template>
     <div id="top">
-        <input id="name" name="name" v-model="user.name" size="20" autocomplete="off"
-               placeholder="Enter a name" />
-        <button id="unlock-button" type="submit" :disabled="!keypadLocked || guessError"
-                @click="unlock">
-            {{ keypadLocked ? 'Unlock' : 'Unlocked' }}
-        </button>
+        <form>
+            <input id="name" name="name" v-model="user.name" size="20" autocomplete="off"
+                   placeholder="Enter a name" required :disabled="!keypadLocked || guessError" />
+            <button id="unlock-button" type="submit" :disabled="!keypadLocked || guessError"
+                    @click="unlock">
+                {{ keypadLocked ? 'Unlock' : 'Unlocked' }}
+            </button>
+        </form>
     </div>
 
     <div id="unlocktimer">
@@ -38,9 +40,11 @@ const { unlockKeypad } = useKeypadStore();
 
 // local setup
 function unlock() {
-    updateUser(user.value);
-    clearGuess();
-    unlockKeypad();
+    if (user.value.name) {
+        updateUser(user.value);
+        clearGuess();
+        unlockKeypad();
+    }
 }
 
 const formattedTimer = computed(() => {

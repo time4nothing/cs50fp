@@ -9,15 +9,17 @@
                 <LeftArrow /> Previous Guesses
                 <LeftArrow />
             </span>
-            <div id="history-open" v-if="historyShow">
-                <div v-if="guessHistory.length === 0">No previous guesses</div>
-                <div v-else>
-                    <div class="history-array" v-for="each in guessHistory" :key="each.guess">
-                        <div class="history-guess">{{ each.guess }}</div>
-                        <ResultLights :resultArray="each.result.split(';')" />
+            <Transition name="slide">
+                <div id="history-slide" v-if="historyShow">
+                    <div v-if="guessHistory.length === 0">No previous guesses</div>
+                    <div v-else>
+                        <div class="history-array" v-for="each in guessHistory" :key="each.guess">
+                            <div class="history-guess">{{ each.guess }}</div>
+                            <ResultLights :resultArray="each.result.split(';')" />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Transition>
         </div>
     </div>
 </template>
@@ -31,7 +33,7 @@ import { storeToRefs } from 'pinia';
 import { useHistoryStore } from '../stores/history.js';
 
 //component imports
-import ResultLights from './resultLights.vue';
+import ResultLights from './ResultLights.vue';
 import RightArrow from './SVGs/RightArrow.vue';
 import LeftArrow from './SVGs/LeftArrow.vue';
 
@@ -56,7 +58,7 @@ function historyToggle() {
     padding: 0 5px 0 0;
 }
 
-#history-open {
+#history-slide {
     writing-mode: horizontal-tb;
     display: flex;
     padding: 10px;
@@ -71,5 +73,17 @@ function historyToggle() {
 
 .history-guess {
     letter-spacing: 22px;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    width: 350px;
+    transition: all 1s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+    width: 0px;
+    opacity: 0;
 }
 </style>

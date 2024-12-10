@@ -24,6 +24,7 @@ export const useGuessStore = defineStore('guesses', () => {
 
     // respond to key selections
     function updateGuess(event) {
+        console.log(event);
         if (guess.value.length === 8 && event === 'enter') {
             keypadLocked.value = true;
             validateGuess(guess.value);
