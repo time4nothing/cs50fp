@@ -1,16 +1,15 @@
 <template>
     <div id="top">
-        <form>
+        <form @submit.prevent="unlock">
             <input id="name" name="name" v-model="user.name" size="20" autocomplete="off"
                    placeholder="Enter a name" required :disabled="!keypadLocked || guessError" />
-            <button id="unlock-button" type="submit" :disabled="!keypadLocked || guessError"
-                    @click="unlock">
+            <button id="unlock-button" type="submit" :disabled="!keypadLocked || guessError">
                 {{ keypadLocked ? 'Unlock' : 'Unlocked' }}
             </button>
         </form>
     </div>
 
-    <div id="unlocktimer">
+    <div id="unlocktimer" v-if="lockDelayEnabled">
         <span id="delaytext">Lock Delay</span>
         <div id="timer">{{ timer < 0 ? '00:00:00' : formattedTimer }}</div>
         </div>
@@ -30,7 +29,7 @@ import { useTimerStore } from '../stores/timer.js';
 // store refs
 const { user } = storeToRefs(useUserStore());
 const { guessError } = storeToRefs(useGuessStore());
-const { keypadLocked } = storeToRefs(useKeypadStore());
+const { keypadLocked, lockDelayEnabled } = storeToRefs(useKeypadStore());
 const { timer } = storeToRefs(useTimerStore());
 
 // store functions
@@ -39,11 +38,13 @@ const { clearGuess } = useGuessStore();
 const { unlockKeypad } = useKeypadStore();
 
 // local setup
-function unlock() {
+async function unlock() {
     if (user.value.name) {
-        updateUser(user.value);
-        clearGuess();
+        await updateUser(user.value);
         unlockKeypad();
+        if (keypadLocked) {
+            clearGuess();
+        }
     }
 }
 
@@ -64,7 +65,7 @@ const formattedTimer = computed(() => {
 
 <style scoped>
 #top {
-    margin-top: 10px;
+    margin: 10px 0;
     padding: 10px;
     display: flex;
     justify-content: center;

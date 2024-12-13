@@ -10,7 +10,7 @@ import { useHistoryStore } from './history.js';
 // define store
 export const useGuessStore = defineStore('guesses', () => {
     // local variables
-    const guess = ref('12345678');
+    const guess = ref('');
     const resultArray = ref(['no', 'no', 'no', 'no', 'no', 'no', 'no', 'no']);
     const guessLocked = ref(false);
     const guessError = ref(false);
@@ -24,7 +24,7 @@ export const useGuessStore = defineStore('guesses', () => {
 
     // respond to key selections
     function updateGuess(event) {
-        console.log(event);
+        // console.log(event);
         if (guess.value.length === 8 && event === 'enter') {
             keypadLocked.value = true;
             validateGuess(guess.value);

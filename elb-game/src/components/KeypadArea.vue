@@ -45,7 +45,7 @@ watch(keypadError, () => {
             guessLocked.value = false;
             guessError.value = false;
             keypadLocked.value = false;
-        }, 700);
+        }, 300);
     }
 })
 
@@ -60,7 +60,7 @@ watch(unlockError, () => {
             guess.value = guessTemp;
             guessLocked.value = false;
             guessError.value = false;
-        }, 700);
+        }, 300);
     }
 })
 </script>

@@ -7,7 +7,8 @@ import cors from 'cors';
 
 const app = express();
 const PORT = 5050;
-const lockDelay = (60 * 100); // 10 seconds from current time
+const lockDelayEnabled = true;
+const lockDelay = (60 * 1000); // 10 seconds from current time
 /// const lockDelay = (12*60*60*1000); // 12 hrs from current time
 
 // setup database and error handling
@@ -26,6 +27,10 @@ app.use(cors());
 // }
 
 // app.get('/', serveVueApp);
+
+app.get('/checklockstatus', (_, res) => {
+    res.json({ status: lockDelayEnabled });
+})
 
 app.post('/gethistory', async (req, res) => {
     let playerId = req.body.userId;

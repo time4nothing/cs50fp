@@ -25,7 +25,7 @@ const { clearHistory } = useHistoryStore();
 function newGame() {
     clearUserFromDB(user.value.id);
     user.value = {};
-    usertimerend.value = '';
+    usertimerend.value = 0;
     guess.value = '';
     resultArray.value = ['no', 'no', 'no', 'no', 'no', 'no', 'no', 'no'];
     clearHistory();

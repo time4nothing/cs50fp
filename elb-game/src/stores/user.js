@@ -9,7 +9,7 @@ import { useHistoryStore } from './history';
 export const useUserStore = defineStore('user', () => {
   // local variables
   const user = ref({});
-  const usertimerend = ref('');
+  const usertimerend = ref(0);
 
   // store functions
   const { updateHistory } = useHistoryStore();
@@ -30,7 +30,7 @@ export const useUserStore = defineStore('user', () => {
       console.log(error);
     }
 
-    updateHistory(user.value.id);
+    await updateHistory(user.value.id);
   }
 
   async function clearUserFromDB(playerId) {

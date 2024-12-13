@@ -12,17 +12,31 @@ export const useTimerStore = defineStore('timer', () => {
 
     // local variables
     const timer = ref(0);
+    let countdown = null;
+
+    // function to start countdown
+    function startCountdown(newValue) {
+        stopCountdown();
+        countdown = setInterval(() => {
+            timer.value = (newValue - Date.now());
+            if (timer.value <= 0) {
+                stopCountdown();
+            }
+        }, 1000)
+    }
+
+    // function to stop countdown
+    function stopCountdown() {
+        clearInterval(countdown);
+    }
 
     // watcher to update countdown timer
     watch(usertimerend, (newValue) => {
         timer.value = (newValue - Date.now());
-        const countdown = setInterval(() => {
-            timer.value = (newValue - Date.now());
-            if (timer.value <= 0) {
-                clearInterval(countdown);
-            }
-        }, 1000)
-        
+        startCountdown(newValue);
+        if (newValue === 0) {
+            stopCountdown();
+        }
     })
 
     return { timer };

@@ -21,6 +21,7 @@ import { storeToRefs } from 'pinia';
 
 // store imports
 import { useGuessStore } from './stores/guesses.js';
+import { useKeypadStore } from './stores/keypad.js';
 
 // component imports
 import LockForm from './components/LockForm.vue';
@@ -33,6 +34,9 @@ import ResetButton from './components/ResetButton.vue';
 
 // store refs
 const { resultArray } = storeToRefs(useGuessStore());
+const { checkDelayStatus } = useKeypadStore();
+
+checkDelayStatus();
 </script>
 
 <style>
